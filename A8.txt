@@ -1,0 +1,88 @@
+Group A
+Assignment No. 8
+Problem Statement : Write a program to implement MySQL/Oracle database connectivity with any front end language to implement Database navigation operations (add, delete, edit etc.) 
+ //Create mysql> Create database Office; Query OK, 1 row affected (0.02 sec) 
+ mysql> use Office; Database changed 
+mysql> create table Employee(eid int,name varchar(20),salary float(10)); Query OK, 0 rows affected (0.04 sec) 
+ 
+mysql> desc Employee; 
++--------+-------------+------+-----+---------+-------+ 
+| Field  | Type        | Null | Key | Default | Extra | 
++--------+-------------+------+-----+---------+-------+ 
+| eid    | int         | YES  |     | NULL    |       | 
+| name   | varchar(20) | YES  |     | NULL    |       | 
+| salary | float       | YES  |     | NULL    |       | 
++--------+-------------+------+-----+---------+-------+ 
+3 rows in set (0.03 sec) 
+ //connect code: 
+import mysql.connector as c 
+con = c.connect(host = 'localhost', user = 'root', password = '123456', database = 'Office') if con.is_connected(): 
+    print('mysql successfully connected') else: 
+    print('some connectivity issue') 
+ output: 
+PS E:\TE\DBMS\Practicals\DBMS_A_8> python connect.py  mysql successfully connected 
+ //insert code: 
+import mysql.connector as c 
+con = c.connect(host = 'localhost', user = 'root', password = '123456', database = 'Office') cursor=con.cursor() eid =int(input(" Enter eid ")) name = input(" Enter name ") salary = int(input(" Enter salary ")) 
+query = " insert into Employee values({}, '{}', {}) ".format(eid, name, salary) cursor.execute(query) con.commit() 
+print("Data inserted successfully")  output: 
+PS E:\TE\DBMS\Practicals\DBMS_A_8> python insert.py 
+ Enter eid 101 
+ Enter name Bhagy  
+ Enter salary 50000 
+Data inserted successfully 
+PS E:\TE\DBMS\Practicals\DBMS_A_8> python insert.py 
+ Enter eid 102  
+ Enter name Shri  
+ Enter salary 50000 
+Data inserted successfully 
+ 
+MySQL output : 
+mysql> select * from Employee; +------+--------+--------+ 
+| eid  | name   | salary | 
++------+--------+--------+ 
+|   101 | Bhagy  |  50000 | 
++------+--------+--------+ 
+1 row in set (0.00 sec) 
+ //update code : 
+import mysql.connector as c 
+con = c.connect(host = 'localhost', user = 'root', password = '123456', database = 'Office') cursor = con.cursor() 
+salary = int(input(" Enter updated salary ")) eid =int(input(" Enter eid ")) 
+query = 'update Employee set salary = {} where eid = {}'.format(salary, eid) 
+cursor.execute(query) con.commit() 
+ output: 
+PS E:\TE\DBMS\Practicals\DBMS_A_8> python update.py 
+ Enter updated salary 50000 
+ Enter eid 101 
+ 
+MySQL output : 
+mysql> select * from Employee; +------+--------+--------+ 
+| eid  | name   | salary | 
++------+--------+--------+ 
+|   101 | Bhagy  |  50000 | 
+|   102 | Shri |  50000 | 
++------+--------+--------+ 
+2 rows in set (0.00 sec) 
+ 
+ 
+ 
+ 
+ 
+ 
+//delete code: 
+import mysql.connector as c 
+con = c.connect(host = 'localhost', user = 'root', password = '123456', database = 'Office') 
+ 
+cursor = con.cursor() eid = int(input(" enter eid ")) 
+query = 'delete from Employee where eid = {}'.format(eid) cursor.execute(query) con.commit() 
+ output: 
+PS E:\TE\DBMS\Practicals\DBMS_A_8> python delete.py  enter eid 101 
+ 
+MySQL output : 
+mysql> select * from Employee; +------+--------+--------+ 
+| eid  | name   | salary | 
++------+--------+--------+ 
+|   102 | Shri |  50000 | 
++------+--------+--------+ 
+1 row in set (0.00 sec) 
+

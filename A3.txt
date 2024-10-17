@@ -1,0 +1,186 @@
+TITLE:SQL Queries - all types of Join, Sub-Query and View:
+ Write at least 10 SQL queries for suitable database application using SQL DML statements. e. f. Note: Instructor will design the queries which demonstrate the use of concepts like all types of Join, Sub-Query and View.
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 28
+Server version: 8.0.37 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ass2               |
+| bhagy              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> create database dbms;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use dbms;
+Database changed
+mysql>  create table name(roll_no int,name varchar(30),primary key (roll_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into name values(41 ,'Neha');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into name values(42 ,'Riya');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into name values(43 ,'Ram');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into name values(44 ,'Rahul');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into name values(45 ,'Rutu');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from name;
++---------+-------+
+| roll_no | name  |
++---------+-------+
+|      41 | Neha  |
+|      42 | Riya  |
+|      43 | Ram   |
+|      44 | Rahul |
+|      45 | Rutu  |
++---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table submission(sr_no int,assgn_id varchar(30),roll_no int,primary key(sr_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from submission;
+Empty set (0.00 sec)
+
+mysql> insert into submission values(1,'YYYY',41);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into submission values(2,'XXXX',42);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into submission values(3,'XYXY',43);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into submission values(4,'XXYY',44);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from submission;
++-------+----------+---------+
+| sr_no | assgn_id | roll_no |
++-------+----------+---------+
+|     1 | YYYY     |      41 |
+|     2 | XXXX     |      42 |
+|     3 | XYXY     |      43 |
+|     4 | XXYY     |      44 |
++-------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> alter table submission add foreign key (roll_no) references name(roll_no);
+Query OK, 4 rows affected (0.08 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc submission;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| sr_no    | int         | NO   | PRI | NULL    |       |
+| assgn_id | varchar(30) | YES  |     | NULL    |       |
+| roll_no  | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select * from name,submission where name.roll_no=submission.roll_no;
++---------+-------+-------+----------+---------+
+| roll_no | name  | sr_no | assgn_id | roll_no |
++---------+-------+-------+----------+---------+
+|      41 | Neha  |     1 | YYYY     |      41 |
+|      42 | Riya  |     2 | XXXX     |      42 |
+|      43 | Ram   |     3 | XYXY     |      43 |
+|      44 | Rahul |     4 | XXYY     |      44 |
++---------+-------+-------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from name join submission on name.roll_no=submission.roll_no;
++---------+-------+-------+----------+---------+
+| roll_no | name  | sr_no | assgn_id | roll_no |
++---------+-------+-------+----------+---------+
+|      41 | Neha  |     1 | YYYY     |      41 |
+|      42 | Riya  |     2 | XXXX     |      42 |
+|      43 | Ram   |     3 | XYXY     |      43 |
+|      44 | Rahul |     4 | XXYY     |      44 |
++---------+-------+-------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select name.roll_no,name,assgn_id from name join submission where name.roll_no=submission.roll_no;
++---------+-------+----------+
+| roll_no | name  | assgn_id |
++---------+-------+----------+
+|      41 | Neha  | YYYY     |
+|      42 | Riya  | XXXX     |
+|      43 | Ram   | XYXY     |
+|      44 | Rahul | XXYY     |
++---------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from name left join submission on name.roll_no=submission.roll_no;
++---------+-------+-------+----------+---------+
+| roll_no | name  | sr_no | assgn_id | roll_no |
++---------+-------+-------+----------+---------+
+|      41 | Neha  |     1 | YYYY     |      41 |
+|      42 | Riya  |     2 | XXXX     |      42 |
+|      43 | Ram   |     3 | XYXY     |      43 |
+|      44 | Rahul |     4 | XXYY     |      44 |
+|      45 | Rutu  |  NULL | NULL     |    NULL |
++---------+-------+-------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name.roll_no,name,assgn_id from name left join submission on name.roll_no=submission.roll_no;
++---------+-------+----------+
+| roll_no | name  | assgn_id |
++---------+-------+----------+
+|      41 | Neha  | YYYY     |
+|      42 | Riya  | XXXX     |
+|      43 | Ram   | XYXY     |
+|      44 | Rahul | XXYY     |
+|      45 | Rutu  | NULL     |
++---------+-------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from name right join submission on name.roll_no=submission.roll_no;
++---------+-------+-------+----------+---------+
+| roll_no | name  | sr_no | assgn_id | roll_no |
++---------+-------+-------+----------+---------+
+|      41 | Neha  |     1 | YYYY     |      41 |
+|      42 | Riya  |     2 | XXXX     |      42 |
+|      43 | Ram   |     3 | XYXY     |      43 |
+|      44 | Rahul |     4 | XXYY     |      44 |
++---------+-------+-------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+

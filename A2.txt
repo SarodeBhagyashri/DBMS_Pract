@@ -1,0 +1,585 @@
+SQL Queries: 
+a.Design and Develop SQL DDL statements which demonstrate the use of SQL objects such 
+as Table, View, Index, Sequence, Synonym, different constraints etc.
+-------------------------------------------------------------------------------------------
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.37 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use bhagy
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_bhagy |
++-----------------+
+| name            |
++-----------------+
+1 row in set (0.03 sec)
+
+mysql> create table client_master(client_no int,client_name varchar(20),address varchar(50),city varchar(10),pincode int,state varchar(20), bal_due float,primary key(client_no));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from client_master;
+Empty set (0.01 sec)
+
+mysql> insert into client_master values('1','abhi','nasik','nasik','422004','MH','5000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into client_master values('2','shri','nasik','nasik','422004','MH','5000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into client_master values('3','shreya','nasik','nasik','422003','MH','5000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into client_master values('4','miya','nasik','nasik','422003','MH','5000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from client_master;
++-----------+-------------+---------+-------+---------+-------+---------+
+| client_no | client_name | address | city  | pincode | state | bal_due |
++-----------+-------------+---------+-------+---------+-------+---------+
+|         1 | abhi        | nasik   | nasik |  422004 | MH    |    5000 |
+|         2 | shri        | nasik   | nasik |  422004 | MH    |    5000 |
+|         3 | shreya      | nasik   | nasik |  422003 | MH    |    5000 |
+|         4 | miya        | nasik   | nasik |  422003 | MH    |    5000 |
++-----------+-------------+---------+-------+---------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select client_name,client_no from client_master;
++-------------+-----------+
+| client_name | client_no |
++-------------+-----------+
+| abhi        |         1 |
+| shri        |         2 |
+| shreya      |         3 |
+| miya        |         4 |
++-------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> insert into client_master values('006','xyz','nasik','nasik','422004','MH','6000');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select client_name,client_no from client_master;
++-------------+-----------+
+| client_name | client_no |
++-------------+-----------+
+| abhi        |         1 |
+| shri        |         2 |
+| shreya      |         3 |
+| miya        |         4 |
+| xyz         |         6 |
++-------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> create table product_master(product_no int,description varchar(20),profit_per float,unit_measure varchar(10),quantity int,reorder int,sell_price float,cost_price float,primary key(product_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into product_master values('101','shampoo','1','one','4','2','10','15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into product_master values('102','oil','1','one','4','2','10','15');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> alter table client_master add telephone_no int;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from client_master;
++-----------+-------------+---------+-------+---------+-------+---------+--------------+
+| client_no | client_name | address | city  | pincode | state | bal_due | telephone_no |
++-----------+-------------+---------+-------+---------+-------+---------+--------------+
+|         1 | abhi        | nasik   | nasik |  422004 | MH    |    5000 |         NULL |
+|         2 | shri        | nasik   | nasik |  422004 | MH    |    5000 |         NULL |
+|         3 | shreya      | nasik   | nasik |  422003 | MH    |    5000 |         NULL |
+|         4 | miya        | nasik   | nasik |  422003 | MH    |    5000 |         NULL |
+|         6 | xyz         | nasik   | nasik |  422004 | MH    |    6000 |         NULL |
++-----------+-------------+---------+-------+---------+-------+---------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from product_master;
++------------+-------------+------------+--------------+----------+---------+------------+------------+
+| product_no | description | profit_per | unit_measure | quantity | reorder | sell_price | cost_price |
++------------+-------------+------------+--------------+----------+---------+------------+------------+
+|        101 | shampoo     |          1 | one          |        4 |       2 |         10 |         15 |
+|        102 | oil         |          1 | one          |        4 |       2 |         10 |         15 |
++------------+-------------+------------+--------------+----------+---------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> create index client_search on client_master(client_no);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table auto(roll_no int NOT NULL AUTO_INCREMENT,name varchar(20),primary key(roll_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from auto;
+Empty set (0.00 sec)
+
+mysql> insert into auto values('11','abc');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into auto values('22','xyz');
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  alter table auto auto_increment=100;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from auto;
++---------+------+
+| roll_no | name |
++---------+------+
+|      11 | abc  |
+|      22 | xyz  |
++---------+------+
+2 rows in set (0.00 sec)
+
+mysql> insert into auto values(null,'abd');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from auto;
++---------+------+
+| roll_no | name |
++---------+------+
+|      11 | abc  |
+|      22 | xyz  |
+|     100 | abd  |
++---------+------+
+3 rows in set (0.00 sec)
+
+mysql> insert into auto values(null,'reh');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from auto;
++---------+------+
+| roll_no | name |
++---------+------+
+|      11 | abc  |
+|      22 | xyz  |
+|     100 | abd  |
+|     101 | reh  |
++---------+------+
+4 rows in set (0.00 sec)
+
+mysql>  update client_master set client_name="nut" where client_no='4';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>  select * from client_master;
++-----------+-------------+---------+-------+---------+-------+---------+--------------+
+| client_no | client_name | address | city  | pincode | state | bal_due | telephone_no |
++-----------+-------------+---------+-------+---------+-------+---------+--------------+
+|         1 | abhi        | nasik   | nasik |  422004 | MH    |    5000 |         NULL |
+|         2 | shri        | nasik   | nasik |  422004 | MH    |    5000 |         NULL |
+|         3 | shreya      | nasik   | nasik |  422003 | MH    |    5000 |         NULL |
+|         4 | nut         | nasik   | nasik |  422003 | MH    |    5000 |         NULL |
+|         6 | xyz         | nasik   | nasik |  422004 | MH    |    6000 |         NULL |
++-----------+-------------+---------+-------+---------+-------+---------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> create index client_find on client_master(client_name,city);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-----------------+
+| Tables_in_bhagy |
++-----------------+
+| auto            |
+| client_master   |
+| name            |
+| product_master  |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from product_master;
++------------+-------------+------------+--------------+----------+---------+------------+------------+
+| product_no | description | profit_per | unit_measure | quantity | reorder | sell_price | cost_price |
++------------+-------------+------------+--------------+----------+---------+------------+------------+
+|        101 | shampoo     |          1 | one          |        4 |       2 |         10 |         15 |
+|        102 | oil         |          1 | one          |        4 |       2 |         10 |         15 |
++------------+-------------+------------+--------------+----------+---------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> desc product_master;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| product_no   | int         | NO   | PRI | NULL    |       |
+| description  | varchar(20) | YES  |     | NULL    |       |
+| profit_per   | float       | YES  |     | NULL    |       |
+| unit_measure | varchar(10) | YES  |     | NULL    |       |
+| quantity     | int         | YES  |     | NULL    |       |
+| reorder      | int         | YES  |     | NULL    |       |
+| sell_price   | float       | YES  |     | NULL    |       |
+| cost_price   | float       | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql>  alter table client_master rename to c_master;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>  insert into product_master values('33','nutela','15','three','40','5
+','110','123');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> alter table product_master modify sell_price float(10,2);
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> desc product_master;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| product_no   | int         | NO   | PRI | NULL    |       |
+| description  | varchar(20) | YES  |     | NULL    |       |
+| profit_per   | float       | YES  |     | NULL    |       |
+| unit_measure | varchar(10) | YES  |     | NULL    |       |
+| quantity     | int         | YES  |     | NULL    |       |
+| reorder      | int         | YES  |     | NULL    |       |
+| sell_price   | float(10,2) | YES  |     | NULL    |       |
+| cost_price   | float       | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> create view client as select client_no,client_name from c_master;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from client;
++-----------+-------------+
+| client_no | client_name |
++-----------+-------------+
+|         1 | abhi        |
+|         4 | nut         |
+|         3 | shreya      |
+|         2 | shri        |
+|         6 | xyz         |
++-----------+-------------+
+5 rows in set (0.00 sec)
+--------------------------------------------------------------------------------------------------------------------
+b.Write at least 10 SQL queries on the suitable database application using SQL DML
+statements.
+-------------------------------------------------------------------------------------------------------------------
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.37 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ass2               |
+| bhagy              |
+| dbms               |
+| group_2            |
+| hotel              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> use bhagy;
+Database changed
+mysql> create table Employee(emp_no int,emp_name varchar(20),date date,position varchar(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> alter table Employee add salary int;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into Employee values('1','abc','2018-07-11','clerk','50000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Employee values('2','xyz','2018-07-11','ceo','50000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Employee values('3','pqr','2018-05-11','hr','55000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create table TE(emp_no int,emp_name varchar(20),join_date date,position varchar(20),salary int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into TE values('01','abc','2018-07-11','clerk','50000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into TE values('02','abhi','2018-09-11','hrintern','250000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into TE values('03','xyz','2018-05-21','head','100000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  select * from TE;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | join_date  | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | abhi     | 2018-09-11 | hrintern | 250000 |
+|      3 | xyz      | 2018-05-21 | head     | 100000 |
++--------+----------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Employee;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | date       | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | xyz      | 2018-07-11 | ceo      |  50000 |
+|      3 | pqr      | 2018-05-11 | hr       |  55000 |
++--------+----------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+
+mysql>  update TE set emp_name='pri' where emp_no='3';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>  select * from TE;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | join_date  | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | abhi     | 2018-09-11 | hrintern | 250000 |
+|      3 | pri      | 2018-05-21 | head     | 100000 |
++--------+----------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Employee union select * from TE;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | date       | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | xyz      | 2018-07-11 | ceo      |  50000 |
+|      3 | pqr      | 2018-05-11 | hr       |  55000 |
+|      2 | abhi     | 2018-09-11 | hrintern | 250000 |
+|      3 | pri      | 2018-05-21 | head     | 100000 |
++--------+----------+------------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Employee union all select * from TE;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | date       | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | xyz      | 2018-07-11 | ceo      |  50000 |
+|      3 | pqr      | 2018-05-11 | hr       |  55000 |
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | abhi     | 2018-09-11 | hrintern | 250000 |
+|      3 | pri      | 2018-05-21 | head     | 100000 |
++--------+----------+------------+----------+--------+
+6 rows in set (0.00 sec)
+
+mysql>  select distinct emp_no from Employee where emp_no in(select emp_no from TE);
++--------+
+| emp_no |
++--------+
+|      1 |
+|      2 |
+|      3 |
++--------+
+3 rows in set (0.01 sec)
+
+mysql> select * from Employee;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | date       | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | xyz      | 2018-07-11 | ceo      |  50000 |
+|      3 | pqr      | 2018-05-11 | hr       |  55000 |
++--------+----------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from TE;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | join_date  | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | abhi     | 2018-09-11 | hrintern | 250000 |
+|      3 | pri      | 2018-05-21 | head     | 100000 |
++--------+----------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select distinct emp_name from Employee where emp_name in(select emp_name from TE);
++----------+
+| emp_name |
++----------+
+| abc      |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select * from Employee;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | date       | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | xyz      | 2018-07-11 | ceo      |  50000 |
+|      3 | pqr      | 2018-05-11 | hr       |  55000 |
++--------+----------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from TE;
++--------+----------+------------+----------+--------+
+| emp_no | emp_name | join_date  | position | salary |
++--------+----------+------------+----------+--------+
+|      1 | abc      | 2018-07-11 | clerk    |  50000 |
+|      2 | abhi     | 2018-09-11 | hrintern | 250000 |
+|      3 | pri      | 2018-05-21 | head     | 100000 |
++--------+----------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select distinct emp_name from Employee where emp_name in(select emp_name from TE);
++----------+
+| emp_name |
++----------+
+| abc      |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select min(salary) from Employee;
++-------------+
+| min(salary) |
++-------------+
+|       50000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select max(salary) from Employee;
++-------------+
+| max(salary) |
++-------------+
+|       55000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) from Employee;
++-------------+
+| sum(salary) |
++-------------+
+|      155000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from Employee;
++-------------+
+| avg(salary) |
++-------------+
+|  51666.6667 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql>  select count(salary) from Employee;
++---------------+
+| count(salary) |
++---------------+
+|             3 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select lcase(emp_no) from Employee;
++---------------+
+| lcase(emp_no) |
++---------------+
+| 1             |
+| 2             |
+| 3             |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql> select ucase(emp_no) from Employee;
++---------------+
+| ucase(emp_no) |
++---------------+
+| 1             |
+| 2             |
+| 3             |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql>  select lcase(salary) from Employee;
++---------------+
+| lcase(salary) |
++---------------+
+| 50000         |
+| 50000         |
+| 55000         |
++---------------+
+3 rows in set (0.00 sec)
+
+mysql>  select mid(emp_no,1,3) from Employee;
++-----------------+
+| mid(emp_no,1,3) |
++-----------------+
+| 1               |
+| 2               |
+| 3               |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select mid(emp_no,1,3) from Employee;
++-----------------+
+| mid(emp_no,1,3) |
++-----------------+
+| 1               |
+| 2               |
+| 3               |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select mid(emp_no,1,5) from Employee;
++-----------------+
+| mid(emp_no,1,5) |
++-----------------+
+| 1               |
+| 2               |
+| 3               |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql>  select mid(salary,1,3) from Employee;
++-----------------+
+| mid(salary,1,3) |
++-----------------+
+| 500             |
+| 500             |
+| 550             |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select mid(salary,1,5) from Employee;
++-----------------+
+| mid(salary,1,5) |
++-----------------+
+| 50000           |
+| 50000           |
+| 55000           |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select mid(emp_no,1,2) from Employee;
++-----------------+
+| mid(emp_no,1,2) |
++-----------------+
+| 1               |
+| 2               |
+| 3               |
++-----------------+
+3 rows in set (0.00 sec)
